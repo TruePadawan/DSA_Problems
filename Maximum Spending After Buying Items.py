@@ -1,4 +1,5 @@
 # https://leetcode.com/problems/maximum-spending-after-buying-items/
+import math
 from typing import List
 
 """
@@ -21,7 +22,7 @@ class Solution:
         days_count = num_of_shops * num_of_items_per_shop
 
         for ith_day in range(1, days_count + 1):
-            rightmost_items = []
+            smallest_rightmost_item = {"ith_shop": math.inf, "value": math.inf}
             # Select the smallest rightmost value that is available per shop
             for j in range(num_of_shops):
                 shop = values[j]
@@ -30,11 +31,10 @@ class Solution:
                 index = num_of_items_per_shop - 1
                 if selected_items_count is not None:
                     index = (num_of_items_per_shop - 1) - selected_items_count
-                if index >= 0:
-                    rightmost_items.append({"ith_shop": j, "value": shop[index]})
+                if index >= 0 and shop[index] < smallest_rightmost_item["value"]:
+                    smallest_rightmost_item = {"ith_shop": j, "value": shop[index]}
 
-            smallest_rightmost_item = min(rightmost_items, key=lambda x: x["value"])
-            selected_shop = smallest_rightmost_item["ith_shop"]
+            selected_shop = int(smallest_rightmost_item["ith_shop"])
             value = smallest_rightmost_item["value"]
             if selected_items_tracker.get(selected_shop) is None:
                 selected_items_tracker[selected_shop] = 1
