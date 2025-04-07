@@ -8,7 +8,7 @@ function pushDominoes(dominoes: string): string {
     const LEFT = "L"
     const RIGHT = "R"
     const UPRIGHT = "."
-    let firstPassResult = ""
+    let result = ""
     for (let i = 0; i < dominoes.length; i++) {
         const currentDomino = dominoes[i]
         if (currentDomino == UPRIGHT) {
@@ -17,45 +17,20 @@ function pushDominoes(dominoes: string): string {
             const hasAdjacentDominoes = hasPreviousDomino && hasNextDomino
 
             const nextDomino = dominoes[i + 1]
-            const previousDomino = firstPassResult[i - 1]
+            const previousDomino = dominoes[i - 1]
             const fallingInDifferentDirections = (nextDomino != UPRIGHT && previousDomino != UPRIGHT && nextDomino != previousDomino)
             if (hasAdjacentDominoes && fallingInDifferentDirections) {
-                firstPassResult += UPRIGHT
+                result += UPRIGHT
             } else if (hasNextDomino && nextDomino == LEFT) {
-                firstPassResult += LEFT
+                result += LEFT
             } else if (hasPreviousDomino && previousDomino == RIGHT) {
-                firstPassResult += RIGHT
+                result += RIGHT
             } else {
-                firstPassResult += UPRIGHT
+                result += UPRIGHT
             }
         } else {
-            firstPassResult += currentDomino
+            result += currentDomino
         }
     }
-
-    let finalResult = ""
-    for (let i = 0; i < dominoes.length; i++) {
-        const currentDomino = firstPassResult[i]
-        if (currentDomino == UPRIGHT) {
-            const hasNextDomino = i < firstPassResult.length - 1
-            const hasPreviousDomino = i > 0
-            const hasAdjacentDominoes = hasPreviousDomino && hasNextDomino
-
-            const nextDomino = firstPassResult[i + 1]
-            const previousDomino = firstPassResult[i - 1]
-            const fallingInDifferentDirections = (nextDomino != UPRIGHT && previousDomino != UPRIGHT && nextDomino != previousDomino)
-            if (hasAdjacentDominoes && fallingInDifferentDirections) {
-                finalResult += UPRIGHT
-            } else if (hasNextDomino && nextDomino == LEFT) {
-                finalResult += LEFT
-            } else if (hasPreviousDomino && previousDomino == RIGHT) {
-                finalResult += RIGHT
-            } else {
-                finalResult += UPRIGHT
-            }
-        } else {
-            finalResult += currentDomino
-        }
-    }
-    return finalResult
+    return result
 }
