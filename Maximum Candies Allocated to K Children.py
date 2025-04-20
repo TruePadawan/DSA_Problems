@@ -16,16 +16,15 @@ Sort the array and while using binary search:
 class Solution:
     def maximumCandies(self, candies: List[int], k: int) -> int:
         candies.sort()
+        candies.reverse()
 
-        sub_piles = list(range(1, candies[-1]+1))
         largest = 0
-        l = 0
-        r = len(sub_piles) - 1
+        l = 1
+        r = sum(candies) // k
         while l <= r:
             m = (l + r) // 2
-            candy = sub_piles[m]
-            if self.can_be_allocated_k_times(candies, candy, k):
-                largest = sub_piles[m]
+            if self.can_be_allocated_k_times(candies, m, k):
+                largest = m
                 l = m + 1
             else:
                 r = m - 1
@@ -33,12 +32,12 @@ class Solution:
 
     def can_be_allocated_k_times(self, candies: List[int], candy: int, k: int):
         division_count = 0
-        for item in reversed(candies):
+        for item in candies:
             if item < candy:
                 break
             division_count += item // candy
             if division_count >= k:
-                return True
+                    return True
         return False
 
 
