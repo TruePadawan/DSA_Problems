@@ -17,10 +17,14 @@ class Solution:
     def maximumCandies(self, candies: List[int], k: int) -> int:
         candies.sort()
         candies.reverse()
+        total = sum(candies)
+
+        if total < k:
+            return 0
 
         largest = 0
         l = 1
-        r = sum(candies) // k
+        r = total // k
         while l <= r:
             m = (l + r) // 2
             if self.can_be_allocated_k_times(candies, m, k):
